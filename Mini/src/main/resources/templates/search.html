@@ -1,0 +1,65 @@
+<!--<!doctype html>-->
+<!--<html lang="en" xmlns:th="http://www.thymeleaf.org"-->
+<!--      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport"-->
+<!--          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">-->
+<!--    <meta http-equiv="X-UA-Compatible" content="ie=edge">-->
+<!--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"-->
+<!--          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">-->
+<!--    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"-->
+<!--          integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">-->
+<!--    <title>Document</title>-->
+
+<!--</head>-->
+<!--<body>-->
+
+<!--<div th:if="${user}==null">-->
+<!--    User not found-->
+<!--</div>-->
+
+<!--<div th:if="${user}!=null" class="container">-->
+
+<!--    <h3>Search Results</h3>-->
+<!--    <hr>-->
+<!--    <br>-->
+
+<!--    <table class="table table-bordered table-striped">-->
+<!--        <thead class="table-dark">-->
+<!--        <tr>-->
+
+<!--            <th>First Name</th>-->
+<!--            <th>Last Name</th>-->
+<!--            <th>Email</th>-->
+<!--&lt;!&ndash;            <th>Role</th>&ndash;&gt;-->
+<!--            <th>Action</th>-->
+<!--        </tr>-->
+<!--        </thead>-->
+
+<!--        <tbody>-->
+<!--        <tr th:object="${user}">-->
+
+<!--            <td th:text="${user.firstname}"></td>-->
+<!--            <td th:text="${user.lastname}"></td>-->
+<!--            <td th:text="${user.email}"></td>-->
+<!--            <td >-->
+<!--                &lt;!&ndash;                <a th:if="${User.Block==false}" th:href="@{/admin/userManagement/unblock/{id}(id=${user.id})}" class="btn btn-success">Unblock</a>&ndash;&gt;-->
+
+<!--                <a th:if="${user.Active == false}"  th:href="@{/admin/userManagement/active/{id}(id=${user.id})}" class="btn btn-success">unblock</a>-->
+<!--                <a th:if="${user.Active == true}" th:href="@{/admin/userManagement/unActive/{id}(id=${user.id})}" class="btn btn-danger">Block</a>-->
+<!--                <a style="margin-left:10px;" href="" th:href="@{/admin/userManagement/delete/{id}(id=${user.id})}" class="btn btn-danger">Delete</a>-->
+
+<!--            </td>-->
+
+<!--        </tr>-->
+<!--        </tbody>-->
+<!--    </table>-->
+
+<!--</div>-->
+
+<!--<hr>-->
+
+<!--<a th:href="@{/admin/userManagement}">Back to User Management</a>-->
+<!--</body>-->
+<!--</html>-->

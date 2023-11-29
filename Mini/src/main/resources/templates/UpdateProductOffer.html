@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Product offer</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        .card {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+<!--                    <h2 class="card-title text-center mb-4">Add Product Offer</h2>-->
+
+                    <form th:action="@{/admin/addProductOffer/add}" method="post" th:object="${productOfferDto}">
+                        <div class="form-group">
+                            <label for="category">Select Category</label>
+                            <select class="form-control" id="category" name="category">
+                                <option th:each="category :${categories}"
+                                        th:value="${category.id}"
+                                        th:text="${category.name}">
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="form-group" th:if="${products}">
+                            <label for="products">Select Product</label>
+                            <select class="form-control"  id="products" name="products">
+                                <option th:each="product : ${products}"
+                                        th:value="${product.id}"
+                                        th:text="${product.name}">
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="discountPercentage">Discount Percentage</label>
+                            <input type="number" class="form-control" th:field="*{discountPercentage}" id="discountPercentage" placeholder="Enter Discount Percentage">
+                        </div>
+                        <div class="form-group">
+                            <label for="offerStartDate">Offer Start Date</label>
+                            <input type="date" class="form-control" th:field="*{offerStartDate}"  id="offerStartDate" placeholder="Enter start date">
+                        </div>
+                        <div class="form-group">
+                            <label for="offerEndDate">Offer End Date</label>
+                            <input type="date" class="form-control" th:field="*{offerEndDate}"  id="offerEndDate" placeholder="Enter end date">
+                        </div>
+                        <input type="hidden" name="id" th:value="${id}">
+                        <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+</body>
+</html>

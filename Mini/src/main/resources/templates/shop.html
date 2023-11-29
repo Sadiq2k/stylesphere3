@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <!--    <meta charset="utf-8">-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="Untree.co">
+<!--    <link rel="shortcut icon" href="favicon.png">-->
+
+    <meta name="description" content="" />
+    <meta name="keywords" content="bootstrap, bootstrap4" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+<!--    <link href="css/tiny-slider.css" rel="stylesheet">-->
+<!--    <link href="css/checkout.css" rel="stylesheet">-->
+
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="stylesheet" href="css/bootstrapHome.css">
+    <!-- Magnific Popup -->
+    <link rel="stylesheet" href="css/magnific-popup.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="css/font-awesome.css">
+    <!-- Fancybox -->
+    <link rel="stylesheet" href="css/jqueryHome.fancybox.min.css">
+    <!-- Themify Icons -->
+    <link rel="stylesheet" href="css/themify-icons.css">
+    <!-- Nice Select CSS -->
+    <link rel="stylesheet" href="css/niceselect.css">
+    <!-- Animate CSS -->
+    <link rel="stylesheet" href="css/animate.css">
+    <!-- Flex Slider CSS -->
+    <link rel="stylesheet" href="css/flex-slider.min.css">
+    <!-- Owl Carousel -->
+    <link rel="stylesheet" href="css/owl-carousel.css">
+    <!-- Slicknav -->
+    <link rel="stylesheet" href="css/slicknav.min.css">
+    <!-- fevicon -->
+    <link rel="icon" href="images/fevicon.png" type="image/gif" />
+    <!-- Scrollbar Custom CSS -->
+    <link rel="stylesheet" href="css/jquery.mCustomScrollbar.min.css">
+    <!-- Tweaks for older IEs-->
+<!--    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">-->
+    <!- - fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
+    <!-- font awesome -->
+<!--    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">-->
+    <!--  -->
+    <!-- owl stylesheets -->
+<!--    <link href="https://fonts.googleapis.com/css?family=Great+Vibes|Poppins:400,700&display=swap&subset=latin-ext" rel="stylesheet">-->
+    <link rel="stylesheet" href="/css/owl.carousel.min.css">
+    <link rel="stylesoeet" href="/css/owl.theme.default.min.css">
+<!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">-->
+
+<!--    <link rel="stylesheet" href="css/reset.css">-->
+    <link rel="stylesheet" href="/styleHome.css">
+    <link href="/css/checkout.css" rel="stylesheet">
+    <link href="/css/bootstrapCheckout.min.css" rel="stylesheet">
+
+        <link rel="stylesheet" href="/css/responsiveHome.css">
+
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+          integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <title>StyleSphere</title>
+    <style>
+        .custom_menu ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      text-align: center;
+    }
+
+    .custom_menu li {
+      display: inline-block;
+      margin-right: 20px;
+    }
+
+    .custom_menu a {
+      text-decoration: none;
+      color: #333;
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    .custom_menu a:hover {
+      color: #f26522;
+    }
+
+    </style>
+
+</head>
+<body>
+<nav id="customNavbar" class="custom-navbar navbar navbar navbar-expand-md  " arial-label="Furni navigation bar" style="  background-color: transparent;position:absolute;">
+    <div class="container">
+        <a class="navbar-brand" href="/">StyleSphere<span></span></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsFurni" aria-controls="navbarsFurni" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarsFurni">
+            <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
+                <li><a class="nav-link" th:href="@{/shop}" href="#">Shop</a></li>
+            </ul>
+            <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
+                <li>
+                    <a class="nav-link" href="/userProfile" style="color:black;"><i class="fa-regular fa-user" style="font-size: 18px;"></i></a></li>
+                <li style="margin-top: 10px;color: black; padding-bottom: 13px;" th:each="user : ${username}">
+                    <a th:href="@{/userProfile}"  th:text="${user.firstname}" style="text-decoration: none!important; color:black"></a>
+                </li>
+                <li>
+                    <a class="nav-link" th:href="@{/cart}" href="#" style="padding-left: 20px; color:black;"><i class="fa-solid fa-cart-shopping" style="font-size: 18px;"></i></a></li>
+                <li class="nav-item active">
+                    <span class="nav-link" th:text="${cartCount}">0</span>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/login}" href="#">login</a>
+                </li>
+                <li >
+                    <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/logout}"  href="#" style="padding-left: 20px;color:black;">logout</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container" style="padding-top: 120px;">
+    <div class=" " style="padding-left: 20%;">
+        <div th:if="${errorMessage != null}" class="alert alert-danger">
+            <p th:text="${errorMessage}"></p>
+        </div>
+        <form class="form-inline" th:action="@{/shop/searchProduct}" method="get">
+            <div class="input-group">
+                <input type="text" class="forms" name="name" placeholder="Search by name" aria-label="Search"
+                       style="width: 300px; border: 1px solid #ccc; padding: 8px; border-radius: 5px;"
+                       onfocus="this.style.borderColor='#fff'; this.placeholder=''"
+                       onblur="this.style.borderColor='#ccc'; this.placeholder='Search by name'"
+                >
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" style="height: 100%" type="submit">Search</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+    <div class="btn-group" >
+        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Select Category
+        </button>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" th:href="@{/shop}">All Products</a>
+            <div th:each="category, iStat : ${categories}">
+                <a class="dropdown-item" th:href="@{/shop/category/{id}(id=${category.id})}" th:text="${category.name}" onclick="changeNavbarStyle()"></a>
+            </div>
+        </div>
+    </div>
+<!-- Start Product Area -->
+<div class="product-area section" style="margin-left: 5%;">
+    <div class="container" >
+        <div class="row">
+            <div class="col-xl-3 col-lg-4 col-md-4 col-12" th:each="product : ${products}">
+                <div class="single-product">
+                    <div class="product-img">
+                        <div style="position: relative; display: inline-block;overflow: hidden; height: 330px; width: 230px; border: 1px solid #ddd; border-radius: 8px;">
+                            <a th:href="@{/shop/viewproduct/{id}(id=${product.id})}">
+                                <img class="default-img" th:src="@{${'/productImages/' + product.imageName}}" th:alt="${product.name}" style="height: 330px; width: 230px;" alt="#">
+                            </a>
+                            <th:block th:if="${product.category.discountPercentage != null and product.category.discountPercentage != 0 and (product.getOffer() == null or product.getOffer().discountPercentage == 0)}">
+                                <div style="position: absolute; top: 0; left: 0; background-color: rgb(255 142 3); padding: 5px;">
+                                    <i class="fa-solid fa-gift"></i> <span th:text="${ product.category.discountPercentage + '%'}"></span>
+                                </div>
+                            </th:block>
+                            <th:block th:if="${product.getOffer() != null and product.getOffer().discountPercentage != 0}">
+                                <div style="position: absolute; top: 0; left: 0; background-color: rgb(255 142 3); padding: 5px;">
+                                    <i class="fa-solid fa-gift"></i> <span th:text="${product.getOffer().discountPercentage + '%'}"></span>
+                                </div>
+                            </th:block>
+                        </div>
+                        <div class="button-head" style="width: 231px;">
+                            <div class="product-action">
+                                <a title="Wishlist" href="#" th:href="@{/addToWishList/{id}(id=${product.id})}"><i class="ti-heart"></i><span>Add to Wishlist</span></a>
+                            </div>
+
+                            <div class="product-action-2">
+                                <a  href="#" th:href="@{/shop/viewproduct/{id}(id=${product.id})}" class="btn btn-primary">View Product</a>
+                            </div>
+                        </div>
+                        <div class="product-content">
+                            <h6><a th:text="${product.name}"></a></h6>
+
+                            <div th:if="${wishlist != null and product.id==productId}" class="alert alert-danger" id="wishlistMessage">
+                                <p th:text="${wishlist}"></p>
+                            </div>
+                            <div class="product-price">
+                                <h2 th:if="${product.category.discountPercentage == null or product.category.discountPercentage == 0 and product.getOffer()==null}">
+                                    ₹ <span th:text="${product.price}"></span>
+                                </h2>
+                                <h2 th:if="${product.category.discountPercentage != 0 and product.getOffer()==null}">
+                                    ₹ <span th:text="${product.discountedPrice}"></span>
+                                    <span style="text-decoration: line-through; color: #999;">₹ <span th:text="${product.price}"></span></span>
+                                </h2>
+                                <h2 th:if="${product.getOffer()!=null}">
+                                    ₹ <span th:text="${product.getOffer().productDiscountAmount}"></span>
+                                    <span style="text-decoration: line-through; color: #999;">₹ <span th:text="${product.price}"></span></span>
+                                </h2>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>                       <!--/ End Single Tab -->
+<script>
+    function changeNavbarStyle() {
+    var navbar = document.getElementById('customNavbar');
+    navbar.classList.add('custom-category-style');
+}
+
+</script>
+<script th:inline="javascript">
+    // Use JavaScript to hide the message after 3 seconds
+    setTimeout(function() {
+        var wishlistMessage = document.getElementById('wishlistMessage');
+        if (wishlistMessage) {
+            wishlistMessage.style.display = 'none';
+        }
+    }, 2000);
+</script>
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+</body>
+</html>

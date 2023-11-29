@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Offers</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+
+
+<div class="container mt-5" style="max-width: 1382px;">
+    <h2 class="mb-4">Product Offers</h2>
+    <a th:href="@{/admin/addProductOffer}" style="margin: 20px 0" class="btn btn-primary">Add Product Offer</a>
+
+    <!-- Example Product Offer 1 -->
+    <div class="card">
+        <div class="card-body">
+            <table class="table">
+                <thead class="thead-light">
+                <tr>
+                    <th scope="col">SN</th>
+                    <th scope="col">Product id</th>
+                    <th scope="col">Product Image</th>
+                    <th scope="col">Product Name</th>
+<!--                    <th scope="col">Preview</th>-->
+                    <th scope="col">Discount %</th>
+                    <th scope="col">Original Amount</th>
+                    <th scope="col">Discount Amount</th>
+                    <th scope="col">offer Start Date</th>
+                    <th scope="col">offer End Date</th>
+                    <th scope="col">Delete</th>
+
+
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr th:each="productOffer, iStat : ${productOffers}" >
+                    <th scope="row" th:text="${iStat.index + 1}">1</th>
+                    <td th:text="${productOffer.product.id}">Larry</td>
+                    <td><img src="" height="50px" width="50px"  th:src="@{${'/productImages/' + productOffer.product.imageName}}"></td>
+                    <td th:text="${productOffer.product.name}">Larry</td>
+                    <td th:text="${productOffer.discountPercentage}">Larry</td>
+                    <td th:text="${productOffer.product.price}">Larry</td>
+                    <td th:text="${productOffer.productDiscountAmount}">Larry</td>
+                    <td th:text="${productOffer.offerStartDate}">Larry</td>
+                    <td th:text="${productOffer.offerEndDate}">Larry</td>
+                    <td>
+                        <a th:href="@{/admin/productOfferDelete/{id}(id=${productOffer.id})}" style="padding-left:10%;"><i class="fa-solid fa-trash-can text-danger"></i></i></a>
+                        <a th:href="@{/admin/UpdateProductOffer/{id}(id=${productOffer.id})}" style="padding-left:10%;"><i class="fa-regular fa-pen-to-square text-success"></i></a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

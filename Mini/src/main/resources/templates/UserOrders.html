@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/checkout.css" rel="stylesheet">
+    <link href="css/bootstrapCheckout.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="styleHome.css">
+    <link rel="stylesheet" href="css/responsiveHome.css">
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <link rel="stylesheet" href="/path/to/starability-min.css"/>
+    <script src="/path/to/starability-min.js"></script>
+    <link rel="stylesheet" href="/path/to/starability-min.css"/>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            margin: 20px;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .starability-basic {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .starability-basic input {
+            opacity: 0;
+            position: absolute;
+        }
+
+        .starability-basic label {
+            font-size: 30px;
+            color: #d3d3d3;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .starability-basic input:checked ~ label,
+        .starability-basic input:hover ~ label {
+            color: #f39c12;
+        }
+
+        #comment {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #3498db;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+<nav id="customNavbar" class="custom-navbar navbar navbar navbar-expand-md  " arial-label="Furni navigation bar" style="  background-color: transparent;position:absolute;">
+
+    <div class="container">
+        <a class="navbar-brand" href="/">StyleSphere<span></span></a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsFurni" aria-controls="navbarsFurni" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarsFurni">
+            <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
+
+                <li>
+                    <a class="nav-link" th:href="@{/shop}" href="#">Shop</a></li>
+
+            </ul>
+
+            <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
+                <li>
+                    <a class="nav-link" href="/userProfile" style="color:black;"><i class="fa-regular fa-user" style="font-size: 18px;"></i></a></li>
+                <li style="margin-top: 10px;color: black; padding-bottom: 13px;" th:each="user : ${username}">
+                    <a th:href="@{/userProfile}"  th:text="${user.firstname}" style="text-decoration: none!important; color:black"></a>
+                <li>
+                    <a class="nav-link" th:href="@{/cart}" href="#" style="padding-left: 20px; color:black;"><i class="fa-solid fa-cart-shopping" style="font-size: 18px;"></i></a></li>
+                <li class="nav-item active">
+                    <span class="nav-link" th:text="${cartCount}">0</span>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/login}" href="#">login</a>
+                </li>
+                <li >
+                    <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/logout}"  href="#" style="padding-left: 20px;color:black;">logout</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container" style="padding-top:80px">
+    <div class="container-fluid">
+        <a th:href="@{/user/orders}"></a>
+        <h3>Orders</h3>
+        <div th:each="order, iStat : ${orders}" class="col-md-8 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <p th:if="${successRefund}" class="text-success" th:text="${successRefund}"></p>
+                    <h5 class="card-title">Order #<span th:text="${order.id}"></span></h5>
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Image</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="item : ${order.orderItems}">
+                            <td th:text="${item.product.name}"></td>
+                            <td style="width: 100px;">
+                                <img  th:src="@{${'/productImages/' + item.product.imageName}}"  alt="Product Image" width="100" height="100" src="">
+                            </td>
+                            <td th:text="${item.quantity}"></td>
+                            <td th:text="${item.price}"></td>
+
+                            <!--                            <td>-->
+<!--                                <p class="mb-3 text-uppercase small" th:if="${item.productVariants?.productColor?.color != null or item.productVariants?.productSize?.size != null}">-->
+<!--                                    variant: <span th:text="${item.productVariants?.productColor?.color} + ' , ' + ${item.productVariants?.productSize?.size}"></span>-->
+<!--                                </p>-->
+<!--                            </td>-->
+<!--                        </tr>-->
+<!--                        </tbody>-->
+
+                    </table>
+                    <p class="mb-1"><strong>Status : </strong><span th:text="${order.status}"></span></p>
+                    <p class="mb-1"><strong>Payment Method : </strong><span th:text="${order.paymentMethod}"></span></p>
+                    <p class="mb-1"><strong>Total Amount payment : </strong><span th:text="${order.totalAmount}"></span></p>
+                    <p class="mb-1"><strong>Address : </strong><span th:text="${order.address}"></span></p>
+                    <form th:action="@{/UserOrders/updateStatus}" method="post">
+                        <input type="hidden" name="orderId" th:value="${order.id}" />
+                        <th:block th:if="${order.status.name() != 'CANCELLED' and order.status.name() != 'RETURN' and order.status.name() != 'DELIVERED' and order.status.name() != 'REJECT'  }">
+                            <a th:href="@{/UserOrder/Cancel/{id}(id=${order.id})}" class="button" type="submit" name="newStatus" value="CANCELLED">Cancel Order</a>
+                        </th:block>
+                        <th:block th:if="${order.status.name() == 'DELIVERED' and order.status.name() != 'CANCELLED'}">
+                            <button class="button" type="submit" name="newStatus" value="RETURN">Return Order</button>
+                        </th:block>
+                    </form>
+                    <p th:if="${order.statusChangeCondition==true and order.status.name() == 'DELIVERED' }" th:text="${'Return pending'}"></p>
+                    <span th:if="${order.status.name()=='REJECT'}" class="text-danger">This order can't return </span>
+                </div>
+                <div th:if="${order.status.name() == 'DELIVERED' and order.active==false}" onsubmit="formSubmitted()"  >
+                    <h5>Rate Product</h5>
+                    <form id="ratingForm" th:action="@{/rating/products}" method="post" th:object="${rating}"  >
+                        <tr th:each="item : ${order.orderItems}">
+                        <fieldset class="starability-basic">
+                            <input type="radio" id="no-rate" class="input-no-rate" name="rating" value="0" checked disabled aria-hidden="true">
+                            <input type="radio" id="rate1" name="rating" value="1">
+                            <label for="rate1" title="Terrible">1 star</label>
+                            <input type="radio" id="rate2" name="rating" value="2">
+                            <label for="rate2" title="Not good">2 stars</label>
+                            <input type="radio" id="rate3" name="rating" value="3">
+                            <label for="rate3" title="Average">3 stars</label>
+                            <input type="radio" id="rate4" name="rating" value="4">
+                            <label for="rate4" title="Very good">4 stars</label>
+                            <input type="radio" id="rate5" name="rating" value="5">
+                            <label for="rate5" title="Amazing">5 stars</label>
+                        </fieldset>
+                        <input type="hidden" id="selected-rating" name="rating" required/>
+                        <label for="comment">Review:</label>
+                        <input  id="comment" name="comment" rows="4" maxlength="500" required>
+                        <input type="hidden" name="productId" th:value="${item.product.id}" />
+                            <input type="hidden" name="orderId" th:value="${order.id}" >
+                        <button type="submit">Submit Rating</button>
+                        </tr>
+                    </form>
+                </div>
+                <form th:action="@{/generate-invoice}" method="get" th:if="${order.status.name() == 'DELIVERED' and order.status.name()!=RETURN}" >
+                    <input type="hidden" name="orderId" th:value="${order.id}" >
+                    <button type="submit" class="btn btn-primary">Invoice Download</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.starability-basic input').click(function() {
+            // Update the hidden input with the selected rating
+            $('#selected-rating').val(this.value);
+        });
+    });
+</script>
+<script>
+    function formSubmitted() {
+        document.getElementById('ratingForm').style.display = 'none';
+    }
+</script>
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+</body>
+</html>

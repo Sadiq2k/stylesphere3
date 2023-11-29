@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+          integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+
+    <title>successfully placed order</title>
+    <style>
+        body {
+     font-family: Arial, sans-serif;
+     background-color: #f7f7f7;
+     margin: 0;
+     padding: 0;
+ }
+  .custom-navbar {
+            background-color: #3b5d50;
+        }
+
+ .containered {
+     max-width: 800px;
+     margin: 0 auto;
+     padding: 20px;
+     background-color: #fff;
+     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+     border-radius: 5px;
+     min-height: 100vh;
+     text-align: center;
+ }
+
+ header h1 {
+     color: #333;
+     font-size: 24px;
+ }
+
+
+ .success-icon img {
+     width: 100px;
+     height: 100px;
+ }
+
+ p {
+     font-size: 15px;
+     color: #666;
+     margin-top: 10px;
+ }
+
+
+ .back-to-home:hover {
+     color: #0056b3;
+ }
+.order-details {
+    margin-top: 20px;
+}
+
+.back-to-home {
+    margin-top: 20px;
+}
+
+    </style>
+    </head>
+    <body>
+    <div class="containered">
+        <header>
+            <h1>Your Order Has Been Placed Successfully</h1>
+        </header>
+
+        <main>
+            <div class="success-icon">
+                <img src="/images/check.png" alt="Success Icon">
+            </div>
+            <p>Thank you for shopping with us! Your order has been successfully placed.</p>
+            <p>You will receive an email confirmation shortly.</p>
+            <div class="order-details"  method="get" th:object="${total}">
+<!--                <span th:each="order, iStat:${orders}"></span>-->
+                <h2>Order Details:</h2>
+<!--                <p>Order Number: <span th:text="${order}"></span></p>-->
+<!--                <p>Ordered Items: <span th:text="${orderedItems}"></span></p>-->
+                <p>Total Amount: <span th:text="${totalAmount}"></span></p>
+            </div>
+            <a href="/" class="back-to-home">Back to Home</a>
+        </main>
+    </div>
+
+    <footer>
+        <p>&copy; 2023 Your Company</p>
+    </footer>
+
+
+    </body>
+    </html>

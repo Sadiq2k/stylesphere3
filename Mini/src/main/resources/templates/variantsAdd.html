@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Variants</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .box {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin-top: 50px;
+            text-align: center;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-sm-6 box">
+            <h3>Add a Variant</h3>
+            <form th:action="@{/admin/variantsAdd}" method="post" th:object="${variants}">
+                <input type="hidden" name="id" th:field="*{id}">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" class="form-control" required th:field="*{name}" name="name" id="name" placeholder="Enter Variants name">
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-sm-6">
+            <h3>All Variants</h3>
+            <ul>
+                <!-- Iterate over variants and display their names -->
+                <li th:each="variant : ${allVariants}">
+                    <span th:text="${variant.name}"></span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+</html>

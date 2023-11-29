@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="Untree.co">
+    <link rel="shortcut icon" href="favicon.png">
+
+    <meta name="description" content="" />
+    <meta name="keywords" content="bootstrap, bootstrap4" />
+
+    <!-- Bootstrap CSS -->
+    <link href="css/bootstrapCheckout.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="css/tiny-slider.css" rel="stylesheet">
+    <link href="css/checkout.css" rel="stylesheet">
+    <title>add new address</title>
+</head>
+<body>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 mb-5 mb-md-0" style="height: 60rem;">
+            <h4>Add new Address</h4>
+            <form th:action="@{/userProfileToAddAddress/add}"  method="post" th:object="${userAddress}">
+                <div class="form-group" >
+                    <div class="p-3 p-lg-5 border bg-white">
+                    <input type="hidden" th:field="*{id}">
+                        <label for="country" class="text-black">Country <span class="text-danger">*</span></label>
+                            <input type="text" th:field="*{country}"  class="form-control" id="country" name="country" placeholder="country" >
+                        <div th:if="${#fields.hasErrors('country')}" style="margin-bottom: 25px" class="text-danger">
+                            <ul>
+                                <li th:each="err : ${#fields.errors('country')}" th:text="${err}"></li>
+                            </ul>
+                        </div>
+
+                        <label for="username" class="text-black">Username <span class="text-danger">*</span></label>
+                        <input type="text" th:field="*{username}"  class="form-control" id="username" name="username" placeholder="username" >
+                        <div th:if="${#fields.hasErrors('username')}" style="margin-bottom: 25px" class="text-danger">
+                            <ul>
+                                <li th:each="err : ${#fields.errors('username')}" th:text="${err}"></li>
+                            </ul>
+                        </div>
+
+                        <label for="landmark" class="text-black">Landmark <span class="text-danger">*</span></label>
+                        <input type="text" th:field="*{landmark}" class="form-control" id="landmark" name="landmark" placeholder="landmark">
+                        <div th:if="${#fields.hasErrors('landmark')}" style="margin-bottom: 25px" class="text-danger">
+                            <ul>
+                                <li th:each="err : ${#fields.errors('landmark')}" th:text="${err}"></li>
+                            </ul>
+                        </div>
+
+
+                        <label for="address" class="text-black">Address <span class="text-danger">*</span></label>
+                        <input type="text" th:field="*{address}"  class="form-control" id="address" name="address" placeholder="Street address">
+                        <div th:if="${#fields.hasErrors('address')}" style="margin-bottom: 25px" class="text-danger">
+                            <ul>
+                                <li th:each="err : ${#fields.errors('address')}" th:text="${err}"></li>
+                            </ul>
+                        </div>
+
+                        <label for="state" class="text-black">State <span class="text-danger">*</span></label>
+                        <input type="text" th:field="*{state}"  class="form-control" id="state" name="state" placeholder="State">
+                        <div th:if="${#fields.hasErrors('state')}" style="margin-bottom: 25px" class="text-danger">
+                            <ul>
+                                <li th:each="err : ${#fields.errors('state')}" th:text="${err}"></li>
+                            </ul>
+                        </div>
+
+                        <label for="city" class="text-black">City <span class="text-danger">*</span></label>
+                        <input type="text" th:field="*{city}"  class="form-control" id="city" name="city" placeholder="city">
+                        <div th:if="${#fields.hasErrors('city')}" style="margin-bottom: 25px" class="text-danger">
+                            <ul>
+                                <li th:each="err : ${#fields.errors('city')}" th:text="${err}"></li>
+                            </ul>
+                        </div>
+
+                        <label for="phoneNo" class="text-black">Phone <span class="text-danger">*</span></label>
+                        <input type="number" th:field="*{phoneNo}"  class="form-control" id="phoneNo" name="phoneNo" placeholder="Phone Number" min="1">
+                        <div th:if="${#fields.hasErrors('phoneNo')}" style="margin-bottom: 25px" class="text-danger">
+                            <ul>
+                                <li th:each="err : ${#fields.errors('phoneNo')}" th:text="${err}"></li>
+                            </ul>
+                        </div>
+
+                        <label for="pincode" class="text-black">PinCode <span class="text-danger">*</span></label>
+                        <input type="number" th:field="*{pincode}"  class="form-control" id="pinCode" name="pincode" placeholder="pincode" >
+                        <div th:if="${#fields.hasErrors('pincode')}" style="margin-bottom: 25px" class="text-danger">
+                            <ul>
+                                <li th:each="err : ${#fields.errors('pincode')}" th:text="${err}"></li>
+                            </ul>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="text-black">Address Type <span class="text-danger">*</span></label>
+                            <div class="form-check">
+                                <input type="radio" id="homeAddress" th:field="*{addressType}"  class="form-check-input" value="Home" name="addressType">
+                                <label for="homeAddress" class="form-check-label">Home</label>
+                            </div>
+                            <div th:if="${#fields.hasErrors('addressType')}" style="margin-bottom: 25px" class="text-danger">
+                                <ul>
+                                    <li th:each="err : ${#fields.errors('addressType')}" th:text="${err}"></li>
+                                </ul>
+                            </div>
+                            <div class="form-check">
+                                <input type="radio" id="officeAddress" th:field="*{addressType}"  class="form-check-input" value="Office" name="addressType">
+                                <label for="officeAddress" class="form-check-label">Office</label>
+                            </div>
+                            <div th:if="${#fields.hasErrors('addressType')}" style="margin-bottom: 25px" class="text-danger">
+                                <ul>
+                                    <li th:each="err : ${#fields.errors('addressType')}" th:text="${err}"></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="center-div" style="margin-top: 15px;">
+                        <input type="hidden" name="addAddress" th:value="${userProfileToAddAddress}">
+                        <button type="submit" class="btn btn-primary">Save Address</button>
+                    </div>
+                </div>
+            </form>
+
+
+        </div>
+    </div>
+</div>
+
+
+<!--    <footer class="footer-section">-->
+<!--        <div class="container relative">-->
+
+
+<!--            <div class="row g-5 mb-5">-->
+
+
+<!--            </div>-->
+
+<!--            <div class="border-top copyright">-->
+<!--                <div class="row pt-4">-->
+<!--                    <div class="col-lg-6">-->
+<!--                        <p class="mb-2 text-center text-lg-start">Copyright &copy;<script>document.write(new Date().getFullYear());</script>. All Rights Reserved. &mdash; Designed with love by <a href="https://untree.co">Untree.co</a> Distributed By <a hreff="https://themewagon.com">ThemeWagon</a>  &lt;!&ndash; License information: https://untree.co/license/ &ndash;&gt;-->
+<!--                        </p>-->
+<!--                    </div>-->
+
+<!--                    <div class="col-lg-6 text-center text-lg-end">-->
+<!--                        <ul class="list-unstyled d-inline-flex ms-auto">-->
+<!--                            <li class="me-4"><a href="#">Terms &amp; Conditions</a></li>-->
+<!--                            <li><a href="#">Privacy Policy</a></li>-->
+<!--                        </ul>-->
+<!--                    </div>-->
+
+<!--                </div>-->
+<!--            </div>-->
+
+
+<!--        </div>-->
+<!--    </footer>-->
+
+
+</body>
+</html>

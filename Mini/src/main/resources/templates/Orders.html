@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+          integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        body {
+            background-color: #f0f1f3;
+        }
+
+        .form-control {
+            width: 70%;
+        }
+
+        .banner {
+            width: 100%;
+            height: 100px;
+            background-color: white;
+        }
+
+        .banner img {
+            width: 83px;
+            padding: 12px;
+            padding-top: 23px;
+        }
+
+        .navbar {
+            justify-content: none !important;
+        }
+    </style>
+    <style>
+        .status-cell {
+            padding: 5px;
+            border-radius: 5px;
+            color: white;
+            text-align: center;
+        }
+
+        .status-pending {
+            background-color: #FFA500; /* PENDING: Orange */
+        }
+
+        .status-processing {
+            background-color: #007BFF; /* PROCESSING: Blue */
+        }
+
+        .status-shipped {
+            background-color: #28A745; /* SHIPPED: Green */
+        }
+
+        .status-delivered {
+            background-color: green ; /* DELIVERED: green */
+        }
+
+        .status-cancelled {
+            background-color: #DC3545; /* CANCELLED: Red */
+        }
+        .status-return{
+        background-color:#6610F2;  /* purple */
+        }
+        .status-select {
+    width: 108px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #333;
+    font-size: 16px;
+}
+.button{
+ width: 114px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #333;
+    font-size: 16px;
+
+}
+.status-select::after {
+    content: '\25BC';
+    position: absolute;
+    top: 12px;
+    right: 10px;
+    font-size: 18px;
+    pointer-events: none;
+}
+.status-select:focus {
+    border-color: #007BFF;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.7);
+}
+
+    </style>
+
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light" >
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+            <a class="navbar-brand" th:href="@{/admin}" href="" style="font-family: gilda-display;">StyleSphere<span></span></a>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <ul class="navbar-nav mr-auto"></ul>
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" th:href="@{/logout}" href="#">logout</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container" style="max-width: 1343px;">
+    <div class="input-group mb-3 d-flex">
+    </div>
+    <table class="table">
+        <thead class="thead-light text-center">
+        <tr>
+            <th scope="col">SN</th>
+            <th scope="col">Product id</th>
+            <th scope="col">User Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Date</th>
+            <th scope="col">Status</th>
+            <th scope="col">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="order, iStat : ${orders}">
+            <th scope="row" th:text="${iStat.index + 1}">1</th>
+            <td>
+                <a th:href="@{'/admin/orderDetails/' + ${order.id}}" th:text="${order.id}">Order Details</a>
+
+            </td>
+            <td th:text="${order.user.firstname+ ' ' +order.user.lastname}">Larry</td>
+            <td th:text="${order.user.email}">Larry</td>
+            <td th:text="${order.orderDate}">Larry</td>
+            <td th:text="${order.status}" th:class="${'status-' + #strings.toLowerCase(order.status)}"></td>
+            <td>
+                <form th:action="@{/admin/updateStatus}" method="post">
+                    <input type="hidden" name="orderId" th:value="${order.id}" />
+                    <select name="newStatus" class="status-select">
+                        <option value="PENDING">PENDING</option>
+                        <option value="PROCESSING">PROCESSING</option>
+                        <option value="DELIVERED">DELIVERED</option>
+                        <option value="CANCELLED">CANCELLED</option>
+                        <option  value="RETURN">RETURN</option>
+                        <option  value="REJECT">REJECT</option>
+
+                    </select>
+                    <button class="button" type="submit">Update Status</button>
+                </form>
+<!--                <span  th:if="${order.statusChangeCondition == true and order.status.name() != 'RETURN'}">-->
+<!--                        <a th:href="@{/admin/orderReturn/accept/{id}(id=${order.id})}" >Accept</a>-->
+<!--                        <button class="button" type="submit" name="action" value="reject">Reject</button>-->
+<!--                    </span>-->
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous">
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
+        crossorigin="anonymous">
+
+</script>
+</body>
+</html>

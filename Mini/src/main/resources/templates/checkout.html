@@ -1,0 +1,272 @@
+<!-- /*
+* Bootstrap 5
+* Template Name: Furni
+* Template Author: Untree.co
+* Template URI: https://untree.co/
+* License: https://creativecommons.org/licenses/by/3.0/
+*/ -->
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="author" content="Untree.co">
+<!--  <link rel="shortcut icon" href="favicon.png">-->
+
+  <meta name="description" content="" />
+  <meta name="keywords" content="bootstrap, bootstrap4" />
+
+		<!-- Bootstrap CSS -->
+		<link href="/css/bootstrapCheckout.min.css" rel="stylesheet">
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+		<link href="/css/tiny-slider.css" rel="stylesheet">
+		<link href="/css/checkout.css" rel="stylesheet">
+		<title>CheckOut</title>
+	<style>
+		.center-div {
+            text-align: center; /* Center-align the content within the div */
+        }
+	</style>
+	<script src="https://www.google.com/recaptcha/api.js?render=v3_site_key"></script>
+	<script>
+		grecaptcha.ready(() => {
+          grecaptcha.render('html_element', {
+             'sitekey' : 'v2_site_key'
+          });
+        });
+	</script>
+	<script>
+		function onSubmit() {
+          grecaptcha.ready(() => {
+              grecaptcha.execute('v3_site_key', {action: 'homepage'}).then((token) => {
+                 ...
+              });
+          });
+        }
+	</script>
+	</head>
+
+<body>
+	<nav class="custom-navbar navbar navbar navbar-expand-md" arial-label="Furni navigation bar">
+		<div class="container">
+			<a class="navbar-brand" href="/" style="padding-top: 1%;">StyleSphere<span></span></a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsFurni" aria-controls="navbarsFurni" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarsFurni">
+				<ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
+					<li sec:authorize="hasRole('ADMIN')" >
+						<a class="nav-link" th:href="@{/admin}">Admin Panel</a>
+					</li>
+					<li>
+						<a class="nav-link" th:href="@{/shop}" href="#">Shop</a></li>
+				</ul>
+				<ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
+					<li>
+						<a class="nav-link" href="/userProfile" style="color:black;"><i class="fa-regular fa-user" style="font-size: 18px;"></i></a></li>
+					<li style="margin-top: 10px;color: black; padding-bottom: 13px;" th:each="user : ${username}">
+						<a th:href="@{/userProfile}"  th:text="${user.firstname}" style="text-decoration: none!important;"></a>
+					<li>
+						<a class="nav-link" th:href="@{/cart}" href="#" style="padding-left: 20px; color:black;"><i class="fa-solid fa-cart-shopping" style="font-size: 18px;"></i></a></li>
+					<li class="nav-item active">
+						<span class="nav-link" th:text="${cartCount}" style="color:black;">0</span>
+					</li>
+					<li class="nav-item active">
+						<a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/login}" style="color:black;" href="#">login</a>
+					</li>
+					<li >
+						<a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/logout}" style="color:black;" href="#">logout</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6">
+					<h2 class="h3 mb-3 text-center">Coupon Code</h2>
+					<div class="p-3 p-lg-5 border bg-white">
+						<form th:action="@{/applyCoupon}" method="get">
+							<label for="couponCode" class="text-black mb-3">Enter your coupon code if you have one</label>
+							<div th:if="${coupon != null}" class="alert alert-success">
+								<p th:text="'Coupon applied successfully. Discount Amount: ' + ${coupon}"></p>
+							</div>
+							<div th:if="${couponExpired != null}" class="alert alert-danger">
+								<p th:text="${couponExpired}"></p>
+							</div>
+							<div th:if="${conditionAmounts}" class="alert alert-danger">
+								<p th:text="'Coupon can only apply above of . ' + ${couponCondition.conditionAmount}"></p>
+							</div>
+							<div th:if="${couponError != null}" class="alert alert-danger">
+								<p th:text="${couponError}"></p>
+							</div>
+							<div th:if="${unexpectedError != null}" class="alert alert-danger">
+								<p th:text="${unexpectedError}"></p>
+							</div>
+							<div th:if="${WalletError != null}" class="alert alert-danger">
+								<p th:text="${WalletError}"></p>
+							</div>
+							<div th:if="${CodError != null}" class="alert alert-danger">
+								<p th:text="${CodError}"></p>
+							</div>
+							<div th:if="${RazorpayUnexpectedError != null}" class="alert alert-danger">
+								<p th:text="${RazorpayUnexpectedError}"></p>
+							</div>
+							<div class="input-group w-75 couponcode-wrap">
+								<input type="text" class="form-control me-2" id="couponCode" name="couponCode" placeholder="couponCode">
+								<div class="input-group-append">
+									<button class="btn btn-black btn-sm" type="submit" >Apply</button>
+								</div>
+							</div>
+						</form>
+					</div>
+
+					<form th:action="@{/checkout}" method="post" th:object="${orderDto}">
+						<input type="hidden" id="couponMinus"  name="couponMinus" th:value="${couponMinus}" required>
+						    <div class="h5 mb-3" style="margin-top: 5%;">
+							    <a th:href="@{/addAddress}" class="" style="padding: 5%;">Add New Address</a>
+							</div>
+						<div th:if="${addressSelectionError != null}" class="alert alert-danger">
+							<p th:text="${addressSelectionError}"></p>
+						</div>
+						<div th:if="${enterAddress}" class="alert alert-danger">
+							<p th:text="${'Please Enter a New Address'}"></p>
+						</div>
+						<table class="table" style="margin-top: 3%;">
+							<tbody>
+							<tr th:each="address, iStat : ${userAddress}">
+								<td >
+									<div class="form-check">
+										<input type="radio" class="form-check-input pointer-cursor"  th:id="'addressRadio' + ${iStat.index}" name="address" th:value="${address.id}" th:checked="${address.id}">
+										<label class="form-check-label pointer-cursor" th:for="'addressRadio' + ${iStat.index}"></label>
+										<div class="justy">
+										<strong th:text="${address.username}"></strong>
+										<strong style="color: #8d8c89; margin: 0 6px;" th:text="${address.addressType}"></strong>
+										<strong  th:text="${address.phoneNo}"></strong>
+										</div>
+
+
+									</div>
+
+									<span th:text="${address.state + ', '
+													+ address.city + ', '
+													+ address.address +
+													',pincode- ' + address.pincode + ', '
+													+ address.landmark + ', '
+													 +address.country}"></span></td>
+							</tr>
+							</tbody>
+						</table>
+						<div th:if="${defaultAddressNotFound}">
+							<p>No default address found. Please add a default address.</p>
+					    </div>
+				    </div>
+					<div class="col-md-6">
+						<div class="col-md-12 ">
+								<h2 class="h3 mb-3 text-black">Your Order</h2>
+							</div>
+								<div class="p-3 p-lg-6 border bg-white">
+									<table class="table site-block-order-table mb-5">
+										<thead>
+										<h5 class="mb-3">The total amount </h5>
+										</thead>
+										<ul class="list-group list-group-flush">
+											<li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
+												Amount Payable
+												<span>₹<span th:text="${totalWithoutDiscount}"></span></span>
+											</li>
+											<li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
+												Total Discount
+												<span>-₹<span th:text="${totalDiscount}"></span></span>
+											</li>
+											<li th:each="product,iStat:${products}" class="list-group-item d-flex justify-content-between align-items-center px-0">
+												Shipping
+												<span th:text="${product.name}"></span>
+											</li>
+											<li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
+												<div>
+													<strong>The total amount of</strong>
+													<strong>
+														<p class="mb-0">(including Shipping charge)</p>
+													</strong>
+												</div>
+												<span><strong>₹<span th:text="${actual}"></span></strong></span>
+											</li>
+										</ul>
+										<div class="placed-button">
+										<input type="hidden" name="orderDto" th:value="${orderDto}">
+										<button type="submit"  href="" id="placeOrderButton" class="btn btn-primary btn-block waves-effect waves-light">Placed Order</button>
+										</div>
+									</table>
+									<div th:if="${InsufficientFundsPage}">
+										<p style="color: red;">Insufficient Funds: Please add more funds to your wallet.</p>
+									</div>
+									<div class="border p-3 mb-5">
+										<h3 class="h6 mb-0">
+											<input type="radio" class="form-check-input" id="wallet" name="paymentMethod" th:value="wallet" checked >
+											<label class="form-check-label" for="wallet">Wallet</label>
+										</h3>
+									</div>
+
+									<div class="border p-3 mb-3">
+										<h3 class="h6 mb-0">
+										<input type="radio" class="form-check-input" id="razorpay"  name="paymentMethod" th:value="RAZORPAY">
+										<label class="form-check-label" for="razorpay">Razorpay</label>
+										</h3>
+									</div>
+									<div class="border p-3 mb-5">
+										<h3 class="h6 mb-0">
+											<input type="radio" class="form-check-input" id="cashOnDeliveryCheckbox" name="paymentMethod" th:value="COD" checked >
+											<label class="form-check-label" for="cashOnDeliveryCheckbox">Cash on Delivery</label>
+										</h3>
+									</div>
+								</div>
+						</div>
+<!--					 </div>-->
+				</form>
+			</div>
+
+		  </div>
+
+
+		<!-- Start Footer Section -->
+		<footer class="footer-section">
+			<div class="container relative">
+
+
+				<div class="row g-5 mb-5">
+
+
+				</div>
+
+				<div class="border-top copyright">
+					<div class="row pt-4">
+						<div class="col-lg-6">
+							<p class="mb-2 text-center text-lg-start">Copyright &copy;<script>document.write(new Date().getFullYear());</script>. All Rights Reserved. &mdash; Designed with love by <a href="https://untree.co">Untree.co</a> Distributed By <a hreff="https://themewagon.com">ThemeWagon</a>  <!-- License information: https://untree.co/license/ -->
+                             </p>
+						</div>
+
+						<div class="col-lg-6 text-center text-lg-end">
+							<ul class="list-unstyled d-inline-flex ms-auto">
+								<li class="me-4"><a href="#">Terms &amp; Conditions</a></li>
+								<li><a href="#">Privacy Policy</a></li>
+							</ul>
+						</div>
+
+					</div>
+				</div>
+               </div>
+	      	</footer>
+		<script>
+			document.getElementById("showPageButton").addEventListener("click", function () {
+                const hiddenPage = document.getElementById("hiddenPage");
+                hiddenPage.style.display = "block";
+            });
+		</script>
+		<script src="/js/bootstrap.bundle.min.js"></script>
+<!--		<script src="/js/tiny-slider.js"></script>-->
+<!--		<script src="/js/custom.js"></script>-->
+	</body>
+
+</html>

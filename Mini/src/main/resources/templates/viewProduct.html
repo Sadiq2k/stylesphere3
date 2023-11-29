@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+
+    <meta charset="UTF-8">
+    <title>E-Commerce project</title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+          integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
+
+
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+    <script src="https://cdn.rawgit.com/igorlino/elevatezoom-plus/1.1.6/src/jquery.ez-plus.js"></script>
+
+    <link href="/css/checkout.css" rel="stylesheet">
+    <link rel="stylesheet" href="styleHome.css">
+    <link href="/css/bootstrapCheckout.min.css" rel="stylesheet">
+
+    <style>
+        * {box-sizing: border-box;}
+
+        .img-zoom-container {
+          position: relative;
+          display: none;
+
+        }
+
+        .img-zoom-lens {
+          position: absolute;
+          border: 1px solid #d4d4d4;
+          width: 40px;
+          height: 40px;
+        }
+
+        .img-zoom-result {
+          border: 1px solid #d4d4d4;
+          width: 300px;
+            border:none;
+          height: 300px;
+        }
+        .navbar-brand {
+    font-size: 50px;
+    color: black;
+    font-family: gilda-display;
+    height: 80px;
+    background-image: transparent;
+    font-weight: 600;
+}
+    </style>
+    <style>
+        .form-check-input {
+            border-color: black;
+        }
+    </style>
+</head>
+<body>
+
+
+<nav class="custom-navbar navbar navbar navbar-expand-md  "  style="height:80px; ">
+    <div class="container">
+        <a class="navbar-brand" href="/" style="color:black;" >StyleSphere<span></span></a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsFurni" aria-controls="navbarsFurni" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarsFurni">
+            <ul class="navbar-nav ml-auto" >
+
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/shop}"  style="color:black;">Shop</a>
+                </li>
+
+            </ul>
+
+            <ul class="navbar-nav ml-4">
+                <li>
+                    <a class="nav-link" href="/userProfile" style="color:black;"><i class="fa-regular fa-user" style="font-size: 18px;"></i></a></li>
+                <li style="margin-top: 10px;color: black; padding-bottom: 13px;" th:each="user : ${username}">
+                    <a th:href="@{/userProfile}"  th:text="${user.firstname}" style="text-decoration: none!important;color:black;"></a>
+
+                <li>
+                    <a class="nav-link" th:href="@{/cart}" href="#" style="padding-left: 20px; color:black;"><i class="fa-solid fa-cart-shopping" style="font-size: 18px;"></i></a></li>
+                <li class="nav-item active">
+                    <span class="nav-link" th:text="${cartCount}">0</span>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/login}"  style="color:black;">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/logout}"  style="color:black;">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-sm-3 d-flex img-zoom-container">
+             <img id="zoom_01" th:src="@{'/productImages/' + ${product.imageName}}" width="300" height="300" alt="Product Image" class="card-img-top" style="aspect-ratio: 1 / 1">
+
+        </div>
+
+        <div class="col-sm-4 mt-5">
+            <form th:action="@{/addToCart/{id}(id=${product.id})}" method="get">
+            <h2 th:text="${product.name}"></h2>
+            <p th:text="${product.category.name}"></p>
+                <h5 th:if="${product.category.discountPercentage == null or product.category.discountPercentage == 0 and product.getOffer()==null}">
+                    ₹ <span th:text="${product.price}"></span>
+                </h5>
+                <h5 th:if="${product.category.discountPercentage != 0 and product.getOffer()==null}">
+                    ₹ <span th:text="${product.discountedPrice}"></span>
+                    <span style="text-decoration: line-through; color: #999;">₹ <span th:text="${product.price}"></span></span>
+                </h5>
+                <h5 th:if="${product.getOffer()!=null}">
+                    ₹ <span th:text="${product.getOffer().productDiscountAmount}"></span>
+                    <span style="text-decoration: line-through; color: #999;">₹ <span th:text="${product.price}"></span></span>
+                </h5>
+                <p th:text="${product.description}"></p>
+            <div class="form-group d-flex">
+                <span><strong>Select Size : </strong></span>
+                <div th:each="variant : ${product.variants}">
+                    <div class="form-check" style="padding-left: 32px;">
+                        <input type="radio" class="form-check-input" th:value="${variant.id}" th:id="'variant-' + ${variant.id}" name="selectedVariant" th:checked="variant.id" />
+                        <label class="form-check-label" th:for="'variant-' + ${variant.id}"  th:text="${variant.size.name}"></label>
+                    </div>
+                </div>
+            </div>
+
+                <button type="submit" class="btn btn-primary">Add to cart</button>
+            </form>
+                <span th:if="${alreadyInCart}" th:text="${'already added in cart'}"></span>
+            </div>
+        <div class="col-sm-4 mt-5">
+            <h5>Reviews</h5>
+            <div class="ratings-summary">
+                <div th:each="star : ${ratingCounts}" class="d-flex align-items-center">
+                    <span th:text="${star}"></span>
+                    <i class="fas fa-star text-warning ml-1"></i>
+                </div>
+                <p class="total-ratings" th:text="${totalDiscountAmount} + ' Ratings'"></p>
+            </div>
+
+            <div th:each="rating : ${product.ratings}">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h6 class="card-title">
+                            <strong th:text="${rating.user.firstname + ' ' + rating.user.lastname}"></strong>
+                        </h6>
+                        <div>
+                    <span th:each="star : ${#numbers.sequence(1, rating.rating)}">
+                        <i class="fas fa-star text-warning"></i>
+                    </span>
+                        </div>
+                        <p class="card-text" th:text="${rating.comment}"></p>
+                        <p class="card-text">
+                            <small class="text-muted" th:text="${rating.rating + ' star'}"></small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <p style="margin-left: 53px;">Roll over image to zoom in</p>
+
+    <div class="row">
+        <div class="col-4">
+            <!-- Thumbnail images -->
+            <img class="mr-2 thumbnail-image" th:each="img, status : ${product.images}" th:src="@{${'/productImages/' + img.productImage}}" data-zoom-image="@{${'/productImages/' + img.productImage}}" data-zoom-id="zoom_01" style=" width: 100px; height: 100px; padding: 5px">
+        </div>
+    </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="https://cdn.rawgit.com/igorlino/elevatezoom-plus/1.1.6/src/jquery.ez-plus.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $("#zoom_01").ezPlus();
+
+        $(".thumbnail-image").on("click", function() {
+            var newImageSrc = $(this).attr("src");
+            var zoomImageSrc = $(this).data("zoom-image");
+            var zoomImageId = $(this).data("zoom-id");
+
+            $("#" + zoomImageId).attr("src", newImageSrc);
+            $("#" + zoomImageId).data("zoom-image", zoomImageSrc).elevateZoom();
+        });
+    });
+</script>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Coupon</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin: 10px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            background-color: #fff;
+            border-radius: 5px;
+            width: 300px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .valid {
+            border-color: #5cb85c;
+            background-color: #dff0d8;
+            color: #4cae4c;
+        }
+
+        .invalid {
+            border-color: #d9534f;
+            background-color: #f2dede;
+            color: #d9534f;
+        }
+
+        .copy-button {
+            cursor: pointer;
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+        }
+
+        .copied {
+            background-color: #28a745;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Valid Coupons</h2>
+<ul>
+    <li th:each="coupon : ${validCoupons}" class="valid">
+        <span th:text="${coupon.couponCode}"></span> - <span th:text="${coupon.expirationDate}"></span>
+        <button class="copy-button" th:attr="data-code=${coupon.couponCode}" onclick="copyCode(this)">Copy Code</button>
+    </li>
+</ul>
+
+<h2>Invalid Coupons</h2>
+<ul>
+    <li th:each="coupon : ${invalidCoupons}" class="invalid">
+        <span th:text="${coupon.couponCode}"></span> - <span th:text="${coupon.expirationDate}"></span>
+    </li>
+</ul>
+
+<script th:inline="javascript">
+    function copyCode(button) {
+        var code = button.getAttribute('data-code');
+        navigator.clipboard.writeText(code)
+            .then(function() {
+                button.innerHTML = 'Copied!';
+                button.classList.add('copied');
+                setTimeout(function() {
+                    button.innerHTML = 'Copy Code';
+                    button.classList.remove('copied');
+                }, 2000);
+            })
+            .catch(function(err) {
+                console.error('Unable to copy coupon code', err);
+            });
+    }
+</script>
+
+</body>
+</html>
