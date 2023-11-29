@@ -194,7 +194,7 @@
 												<span><strong>₹<span th:text="${actual}"></span></strong></span>
 											</li>
 										</ul>
-										<div class="placed-button">
+										<div class="placed-button" th:if="${userAddress!=null}">
 										<input type="hidden" name="orderDto" th:value="${orderDto}">
 										<button type="submit"  href="" id="placeOrderButton" class="btn btn-primary btn-block waves-effect waves-light">Placed Order</button>
 										</div>

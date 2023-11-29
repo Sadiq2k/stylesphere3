@@ -409,10 +409,7 @@ public class CheckoutController {
             orders.setStatus(OrderStatus.CONFIRM);
             orders.setAddress(userAddressService.findById(userAddress).get().toString());
             ordersService.saveOrders(orders);
-
             Wallet wallet=walletRepository.findWalletByUserId(user.getId());
-
-
             List<CartItem> cartItemList = cart.getCartItems();
             for (CartItem cartItem : cartItemList) {
                 OrderItem orderItem = new OrderItem();
