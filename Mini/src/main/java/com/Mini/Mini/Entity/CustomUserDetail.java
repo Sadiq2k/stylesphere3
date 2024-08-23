@@ -34,8 +34,6 @@ public class CustomUserDetail extends User implements UserDetails {
     }
 
 
-
-
     @Override
     public String getPassword() {
         return super.getPassword();
