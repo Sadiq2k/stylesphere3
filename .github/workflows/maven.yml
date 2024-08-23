@@ -30,7 +30,7 @@ jobs:
           image: sadi820/e-commerce
           tags: latest
           registry: docker.io
-          dockerfile: Dockerfile  # Adjust this to the Dockerfile location
+          dockerfile: Mini/Dockerfile  # Adjust to the correct relative path to your Dockerfile
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          context: ./Mini  # Update to match your project directory
+          context: ./  # Update to match your project directory
