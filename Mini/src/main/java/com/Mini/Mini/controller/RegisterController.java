@@ -57,7 +57,6 @@ public class RegisterController {
     public void initBinder(WebDataBinder dataBinder) {
 
         StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(false);
-
         dataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
     }
 
@@ -88,10 +87,12 @@ public class RegisterController {
         }
         String password = user.getPassword();
         user.setPassword(bCryptPasswordEncoder.encode(password));
-        List<Role> roles = new ArrayList<>();
-        roles.add(roleRepository.findById(2).get());
+//        List<Role> roles = new ArrayList<>();
+//        roles.add(roleRepository.findById(2).get());
+        Role role = roleRepository.findById(2).orElseThrow(() -> new RuntimeException("Role not found")); // Fetch the role by ID
+
         user.setActive(true);
-        user.setRoles(roles);
+        user.setRoles(role);
         user.setOtp(otp);
         user.setOtpGeneratedTime(LocalDateTime.now());
         user.setReferralCode(generateReferralCode());

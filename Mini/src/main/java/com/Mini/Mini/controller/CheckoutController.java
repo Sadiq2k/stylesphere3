@@ -67,6 +67,13 @@ public class CheckoutController {
     public String checkoutPage(@ModelAttribute("totalAmountApplyCoupon") String totalAmountApplyCoupon,
                                Model model,
                                Principal principal) {
+        User user1 = userService.getUserByEmail(principal.getName()).get();
+
+        List<UserAddress> userAddresses1 = userAddressService.getUserAddressesByUserId(user1.getId());
+
+        if (userAddresses1==null){
+            return "addAddress";
+        }
        try{
 
             User user = userService.getUserByEmail(principal.getName()).get();
@@ -76,7 +83,6 @@ public class CheckoutController {
             List<UserAddress> userAddresses = userAddressService.getUserAddressesByUserId(user.getId());
             model.addAttribute("userAddress", userAddresses);
             model.addAttribute("cashOnDelivery", paymentService.getPaymentById(user.getId()));
-
             double totalWithoutDiscount = cartItemList.stream()
                     .mapToDouble(item -> item.getQuantity() * item.getProduct().getPrice())
                     .sum();
@@ -233,8 +239,6 @@ public class CheckoutController {
             Long userAddress = notes.getLong("address");
 
             User user = userService.getUserByEmail(principal.getName()).orElse(null);
-            Double total = user.getCart().getCartItems().stream().map(x -> x.getQuantity() * x.getProduct().getPrice()).reduce(0.0, (a, b) -> a + b) + 40;
-
             Cart cart = user.getCart();
 
             Orders orders = new Orders();
@@ -259,7 +263,6 @@ public class CheckoutController {
                 }
                 orderIteamRepository.save(orderItem);
             }
-
             double totalWithoutDiscount = cartItemList.stream()
                     .mapToDouble(item -> item.getQuantity() * item.getProduct().getPrice())
                     .sum();
@@ -272,11 +275,8 @@ public class CheckoutController {
                     .sum();
 
             double totalDiscount = totalWithoutDiscount - totalWithDiscount;
-
             double actually = totalWithoutDiscount - totalDiscount + 40;
-
             if (totalWithProductOfferDiscount!=0){
-
                 String actuall = String.format("%.2f", actually);
                 int actuali = payment.get("amount");
                 double actual = actuali / 100.0;
@@ -444,7 +444,6 @@ public class CheckoutController {
                     assert user.getWallet() != null;
                     user.getWallet().setWalletAmount(newWalletAmount);
                     walletService.saveWallet(user.getWallet());
-
                     orders.setTotalAmount(actualy);
                     ordersService.saveOrders(orders);
 
@@ -471,7 +470,6 @@ public class CheckoutController {
                 assert user.getWallet() != null;
                 user.getWallet().setWalletAmount(newWalletAmount);
                 walletService.saveWallet(user.getWallet());
-
                 orders.setTotalAmount(actual);
                 ordersService.saveOrders(orders);
 
