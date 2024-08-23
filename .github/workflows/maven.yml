@@ -22,7 +22,7 @@ jobs:
 
       - name: Build with Maven
         run: mvn clean install
-        working-directory: ./Mini  # Ensure this is correct
+        working-directory: ./  # Ensure this is correct
 
       - name: Build & push Docker image
         uses: mr-smithers-excellent/docker-build-push@v5
@@ -30,7 +30,7 @@ jobs:
           image: sadi820/e-commerce
           tags: latest
           registry: docker.io
-          dockerfile: Mini/Dockerfile  # Adjust to the correct path of your Dockerfile
+          dockerfile: Dockerfile  # Adjust to the correct path of your Dockerfile
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          directory: ./Mini  # This specifies the build context (where Dockerfile is located)
+          directory: ./ # This specifies the build context (where Dockerfile is located)
