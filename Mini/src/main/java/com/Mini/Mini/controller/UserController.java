@@ -25,7 +25,7 @@ public class UserController{
     @Autowired
     UserService userService;
     @Autowired
-    OrdersService ordersService;
+    OrdersServiceImpl ordersService;
     @Autowired
     OrdersItemService ordersItemService;
     @Autowired

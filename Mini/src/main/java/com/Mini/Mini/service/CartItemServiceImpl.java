@@ -1,8 +1,8 @@
 package com.Mini.Mini.service;
 
 import com.Mini.Mini.Entity.CartItem;
-import com.Mini.Mini.Entity.User;
 import com.Mini.Mini.repository.CartItemRepository;
+import com.Mini.Mini.service.Impl.CartItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class CartItemService {
+public class CartItemServiceImpl implements CartItemService {
 
     @Autowired
     CartItemRepository  cartItemRepository;

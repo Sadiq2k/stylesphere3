@@ -1,7 +1,9 @@
 package com.Mini.Mini.service;
 
-import com.Mini.Mini.Entity.Cart;
+import com.Mini.Mini.Entity.*;
+import com.Mini.Mini.repository.CartItemRepository;
 import com.Mini.Mini.repository.CartRepository;
+import com.Mini.Mini.service.Impl.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,10 +11,13 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class CartService {
+public class CartServiceImpl implements CartService {
 
     @Autowired
     private CartRepository cartRepository;
+
+    @Autowired
+    CartItemRepository cartItemRepository;
 
     public void saveCart(Cart cart) {
         cartRepository.save(cart);
@@ -36,4 +41,6 @@ public class CartService {
     public void updateCart(Cart cart1) {
         cartRepository.save(cart1);
     }
+
+
 }

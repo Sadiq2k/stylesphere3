@@ -2,6 +2,7 @@ package com.Mini.Mini.service;
 import com.Mini.Mini.Entity.Orders;
 import com.Mini.Mini.Entity.User;
 import com.Mini.Mini.repository.OrderRepository;
+import com.Mini.Mini.service.Impl.OrdersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class OrdersService {
+public class OrdersServiceImpl  implements OrdersService {
 
     @Autowired
     OrderRepository orderRepository;

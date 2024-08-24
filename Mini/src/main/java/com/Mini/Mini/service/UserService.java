@@ -6,7 +6,6 @@ import com.Mini.Mini.Util.OtpUtil;
 import com.Mini.Mini.repository.RoleRepository;
 import com.Mini.Mini.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,7 +18,7 @@ public class UserService {
     @Autowired
     private EmailUtil emailUtil;
 
-  private final UserRepository userRepository;
+    private final UserRepository userRepository;
     @Autowired
     RoleRepository roleRepository;
 

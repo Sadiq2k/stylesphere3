@@ -7,6 +7,9 @@ import com.Mini.Mini.repository.CartRepository;
 import com.Mini.Mini.repository.OrderIteamRepository;
 import com.Mini.Mini.repository.UserAddressRepository;
 import com.Mini.Mini.service.*;
+import com.Mini.Mini.service.Impl.CartItemService;
+import com.Mini.Mini.service.Impl.CartService;
+import com.Mini.Mini.service.Impl.OrdersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -59,9 +62,12 @@ public class CartController {
                             RedirectAttributes redirectAttributes,
                             Model model, Principal principal) {
 
+
+
         Product product = productService.getProductById(productId).get();
         User user = userService.getUserByEmail(principal.getName()).get();
         ProductVariant productVariant = productVariantService.findSizeByProductVariantId(Long.valueOf(selectedVariant));
+
         Cart cart = user.getCart();
         Optional<CartItem> cartItemOptional = cartItemRepository.findCartItemByProductAndCart(product, cart);
 
