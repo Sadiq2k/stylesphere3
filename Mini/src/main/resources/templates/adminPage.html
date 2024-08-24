@@ -13,7 +13,6 @@
     <title>Document</title>
     <style>
 
-
          .sidebar {
          position: fixed;
          top: 0;
@@ -30,10 +29,10 @@
          width: 100%;
          }
          }
-     .sidebar .active {
-     border-radius: 5px;
-     box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
-     }
+         .sidebar .active {
+         border-radius: 5px;
+         box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
+         }
 
          .sidebar-sticky {
          position: relative;
@@ -43,6 +42,15 @@
          overflow-x: hidden;
          overflow-y: auto;
      }
+         .card {
+        transition: transform 0.2s, box-shadow 0.2s;
+        border: none; /* Remove card border */
+    }
+
+    .card:hover {
+        transform: translateY(-5px); /* Lift the card slightly */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
+    }
     </style>
 </head>
 <body>
@@ -73,23 +81,24 @@
     <h1 class="display-4">Welcome back,<span style="color:blue">Sadiq</span></h1>
     <p>Easily manage your data from this admin <mark>CMS</mark></p>
 </div>
-<a th:href="@{/salesReportCsv}" class="btn btn-success" >Excel</a>
-
-<a href="/admin/AdminYearsChart">Yearly Order Production</a>
+<div class="container text-center mb-4">
+    <a th:href="@{/salesReportCsv}" class="btn btn-success">Export to Excel</a>
+    <a href="/admin/AdminYearsChart" class="btn btn-primary ml-2">Yearly Order Production</a>
+</div>
 <div class="container d-flex">
     <div id="chartContainer" style="height: 300px; width: 100%;"></div>
     <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
-
 </div>
+
 <div class="container-fluid">
     <div class="row">
-
-        <div class="col-sm-3 pt-3" >
-            <div class="card" style="background-color:#e3e3e3;">
-                <div class="card-body">
+        <!-- Example of one card -->
+        <div class="col-sm-3 pt-3">
+            <div class="card">
+                <div class="card-body" style="background-color:#e3e3e3;">
                     <h4 class="card-title">Categories</h4>
                     <p class="card-text">Manage the categories section here.</p>
-                    <a href="#" th:href="@{/admin/categories}" class="card-link btn btn-primary">Manage</a>
+                    <a th:href="@{/admin/categories}" class="card-link btn btn-primary">Manage</a>
                 </div>
             </div>
         </div>
